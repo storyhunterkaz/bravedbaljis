@@ -15,7 +15,7 @@ A Web3 edtech companion that analyzes social media posts to create personalized 
 
 The application is built using a comprehensive agent-based architecture where multiple specialized agents work together:
 
-- **Orchestrator Agent**: Coordinates all other specialized agents
+- **Mrs Beens**: Lead agent who coordinates all other specialized agents - funny like Mr Bean, tech-savvy like Balaji Srinivasan, and swarmy like a bee
 - **Social Media Agent**: Analyzes user's social media posts (Twitter integration)
 - **Interest Analysis Agent**: Categorizes and analyzes user interests
 - **BRAVED Analysis Agent**: Applies the BRAVED framework to learning analysis
@@ -31,7 +31,7 @@ The agent-based architecture is implemented using the **Agno** library, which pr
 
 - Each agent extends the base `Agent` class from Agno
 - Agents communicate through well-defined interfaces using `Tool` objects
-- The orchestrator agent manages workflow and delegates tasks to specialized agents
+- Mrs Beens manages workflow and delegates tasks to specialized agents
 - Agents can be easily extended or replaced without affecting the overall system
 
 This modular approach allows for flexible development and easy integration of new capabilities as the application evolves.

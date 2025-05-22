@@ -2,11 +2,11 @@ from agno import Agent, Tool
 from typing import List, Dict, Any
 import json
 
-class OrchestratorAgent(Agent):
+class MrsBeens(Agent):
     def __init__(self):
         super().__init__(
-            name="Orchestrator",
-            description="Main agent that coordinates all other specialized agents",
+            name="Mrs Beens",
+            description="Lead agent who coordinates all other specialized agents - funny like Mr Bean, tech-savvy like Balaji Srinivasan, and swarmy like a bee",
             tools=[
                 Tool(
                     name="delegate_task",
