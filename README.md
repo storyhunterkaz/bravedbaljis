@@ -11,6 +11,20 @@ A Web3 edtech companion that analyzes social media posts to create personalized 
 - **Neuroscience-Based Learning**: Analyzes learning patterns and provides personalized recommendations
 - **Web3 Integration**: Built with modern Web3 technologies
 
+## Agent-Based Architecture
+
+The application is built using a comprehensive agent-based architecture where multiple specialized agents work together:
+
+- **Orchestrator Agent**: Coordinates all other specialized agents
+- **Social Media Agent**: Analyzes user's social media posts (Twitter integration)
+- **Interest Analysis Agent**: Categorizes and analyzes user interests
+- **BRAVED Analysis Agent**: Applies the BRAVED framework to learning analysis
+- **BALAJIS Analysis Agent**: Applies the BALAJIS framework to learning analysis
+- **Learning Path Agent**: Generates personalized learning paths based on interests
+- **Neuroscience Agent**: Provides neuroscience-based learning insights
+
+Each agent is responsible for a specific aspect of the analysis and recommendation process, working together to create a comprehensive learning experience.
+
 ## Tech Stack
 
 - **Frontend**: Next.js, React, TailwindCSS
