@@ -6,8 +6,8 @@ A Web3 edtech companion that analyzes social media posts to create personalized 
 
 - **Social Media Analysis**: Analyzes Twitter posts to understand user interests and goals
 - **Personalized Learning Paths**: Creates customized learning journeys based on user interests
-- **BRAVED Framework Integration**: Analyzes creative and technical interests (Building, Research, Art, Ventures, Engineering, Design)
-- **BALAJIS Framework Integration**: Analyzes future-oriented interests (Bitcoin, AI, Longevity, Autonomous, Jobs, Internet, Space)
+- **BRAVED Framework Integration**: Analyzes interests in Bitcoin & Cryptocurrency, Real World Assets/NFTs/Web3 Gaming, AI/AI Agents & Prompting, VR/AR & Spatial Computing/Metaverse, Emotional Intelligence, Decentralization & Cryptography
+- **BALAJIS Framework Integration**: Analyzes interests in Build, Attention, Leverage, Algorithms, Joy, Influence, Skills
 - **Neuroscience-Based Learning**: Analyzes learning patterns and provides personalized recommendations
 - **Web3 Integration**: Built with modern Web3 technologies
 
