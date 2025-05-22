@@ -25,6 +25,17 @@ The application is built using a comprehensive agent-based architecture where mu
 
 Each agent is responsible for a specific aspect of the analysis and recommendation process, working together to create a comprehensive learning experience.
 
+### Agno Framework Implementation
+
+The agent-based architecture is implemented using the **Agno** library, which provides a powerful framework for building and orchestrating AI agents:
+
+- Each agent extends the base `Agent` class from Agno
+- Agents communicate through well-defined interfaces using `Tool` objects
+- The orchestrator agent manages workflow and delegates tasks to specialized agents
+- Agents can be easily extended or replaced without affecting the overall system
+
+This modular approach allows for flexible development and easy integration of new capabilities as the application evolves.
+
 ## Tech Stack
 
 - **Frontend**: Next.js, React, TailwindCSS
