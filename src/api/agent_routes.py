@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Any
-from ..agents.orchestrator import OrchestratorAgent
+from ..agents.orchestrator import MrsBeens
 from ..agents.social_media_agent import SocialMediaAgent
 from ..agents.interest_analysis_agent import InterestAnalysisAgent
 from ..agents.learning_path_agent import LearningPathAgent
 from ..agents.braved_analysis_agent import BRAVEDAnalysisAgent
 from ..agents.balajis_analysis_agent import BALAJISAnalysisAgent
 from ..agents.neuroscience_agent import NeuroscienceAgent
+from ..lib.supabase_client import update_profile, get_profile
 import os
 from dotenv import load_dotenv
 
@@ -16,7 +17,7 @@ load_dotenv()
 router = APIRouter()
 
 # Initialize agents
-orchestrator = OrchestratorAgent()
+mrs_beens = MrsBeens()
 
 # Initialize specialized agents
 social_media_agent = SocialMediaAgent(
@@ -29,13 +30,13 @@ braved_analysis_agent = BRAVEDAnalysisAgent()
 balajis_analysis_agent = BALAJISAnalysisAgent()
 neuroscience_agent = NeuroscienceAgent()
 
-# Register all agents with orchestrator
-orchestrator.register_agent(social_media_agent)
-orchestrator.register_agent(interest_analysis_agent)
-orchestrator.register_agent(learning_path_agent)
-orchestrator.register_agent(braved_analysis_agent)
-orchestrator.register_agent(balajis_analysis_agent)
-orchestrator.register_agent(neuroscience_agent)
+# Register all agents with Mrs Beens
+mrs_beens.register_agent(social_media_agent)
+mrs_beens.register_agent(interest_analysis_agent)
+mrs_beens.register_agent(learning_path_agent)
+mrs_beens.register_agent(braved_analysis_agent)
+mrs_beens.register_agent(balajis_analysis_agent)
+mrs_beens.register_agent(neuroscience_agent)
 
 class AnalysisRequest(BaseModel):
     user_id: str
@@ -48,35 +49,41 @@ class NeuroscienceRequest(BaseModel):
 @router.post("/analyze")
 async def analyze_profile(request: AnalysisRequest):
     try:
-        result = await orchestrator.execute(request.task, request.params)
-        return result
+        # Get the analysis from Mrs Beens and her team
+        result = await mrs_beens.execute(request.task, request.params)
+        
+        # Store the results in Supabase
+        await update_profile(request.user_id, {
+            "braved_scores": result.get("braved_scores", {}),
+            "balajis_scores": result.get("balajis_scores", {}),
+            "learning_path": result.get("learning_path", {})
+        })
+        
+        return {
+            "status": "success",
+            "data": result,
+            "message": "Analysis completed and stored in Supabase"
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/neuroscience")
 async def get_neuroscience_insights(request: NeuroscienceRequest):
     try:
-        # Get user data from your database or other sources
-        user_data = {
-            "activities": [
-                {"type": "visual", "engagement_score": 0.8},
-                {"type": "auditory", "engagement_score": 0.6},
-                {"type": "kinesthetic", "engagement_score": 0.9},
-                {"type": "reading_writing", "engagement_score": 0.7}
-            ],
-            "activity_times": [
-                {"timestamp": "2024-03-20T10:00:00", "success_rate": 0.9},
-                {"timestamp": "2024-03-20T14:00:00", "success_rate": 0.8},
-                {"timestamp": "2024-03-20T16:00:00", "success_rate": 0.95}
-            ],
-            "quiz_results": [
-                {"topic": "Web3", "total_questions": 10, "correct_answers": 8},
-                {"topic": "AI", "total_questions": 10, "correct_answers": 7}
-            ]
-        }
+        # Get user data from Supabase
+        user_data = await get_profile(request.user_id)
         
         # Get insights from neuroscience agent
-        insights = await neuroscience_agent.analyze_learning_patterns(user_data)
+        insights = await neuroscience_agent.analyze_learning_patterns({
+            "user_id": request.user_id,
+            "profile": user_data
+        })
+        
+        # Store insights in Supabase
+        await update_profile(request.user_id, {
+            "neuroscience_insights": insights
+        })
+        
         return insights
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -84,8 +91,8 @@ async def get_neuroscience_insights(request: NeuroscienceRequest):
 @router.get("/agents")
 async def list_agents():
     return {
-        "agents": list(orchestrator.specialized_agents.keys()),
-        "orchestrator": orchestrator.name
+        "agents": list(mrs_beens.specialized_agents.keys()),
+        "orchestrator": mrs_beens.name
     }
 
 @router.get("/frameworks")
